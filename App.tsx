@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { UserRole, ViewState, User } from './types';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import AdminDashboard from './components/AdminDashboard';
 import UserPortal from './components/UserPortal';
 import { StorageService } from './services/storage';
@@ -33,10 +34,17 @@ const App: React.FC = () => {
     setViewState(ViewState.LOGIN);
   };
 
+  const navigateToSignup = () => setViewState(ViewState.SIGNUP);
+  const navigateToLogin = () => setViewState(ViewState.LOGIN);
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
       {viewState === ViewState.LOGIN && (
-        <Login onLogin={handleLogin} />
+        <Login onLogin={handleLogin} onSignup={navigateToSignup} />
+      )}
+
+      {viewState === ViewState.SIGNUP && (
+        <Signup onSignup={handleLogin} onLogin={navigateToLogin} />
       )}
       
       {viewState === ViewState.ADMIN_DASHBOARD && (

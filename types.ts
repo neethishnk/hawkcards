@@ -68,6 +68,7 @@ export interface AuthState {
 
 export enum ViewState {
   LOGIN = 'LOGIN',
+  SIGNUP = 'SIGNUP',
   ADMIN_DASHBOARD = 'ADMIN_DASHBOARD',
   USER_PORTAL = 'USER_PORTAL'
 }
