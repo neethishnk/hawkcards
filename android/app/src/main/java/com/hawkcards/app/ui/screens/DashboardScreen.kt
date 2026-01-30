@@ -1,6 +1,7 @@
 package com.hawkcards.app.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,7 +25,10 @@ import com.hawkcards.app.models.DigitalCard
 fun DashboardScreen(
     cards: List<DigitalCard>,
     onLogout: () -> Unit,
-    onNavigateToContacts: () -> Unit
+    onNavigateToContacts: () -> Unit,
+    onAddCard: () -> Unit,
+    onEditCard: (String) -> Unit,
+    onShareCard: (String) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -41,7 +45,7 @@ fun DashboardScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /* Create Card */ }) {
+            FloatingActionButton(onClick = onAddCard) {
                 Icon(Icons.Default.Add, contentDescription = "Add Card")
             }
         }
@@ -58,7 +62,11 @@ fun DashboardScreen(
             }
 
             items(cards) { card ->
-                CardItem(card)
+                CardItem(
+                    card = card,
+                    onEdit = { onEditCard(card.id) },
+                    onShare = { onShareCard(card.id) }
+                )
             }
         }
     }
@@ -93,9 +101,11 @@ fun StatCard(label: String, value: String, modifier: Modifier, bgColor: Color, t
 }
 
 @Composable
-fun CardItem(card: DigitalCard) {
+fun CardItem(card: DigitalCard, onEdit: () -> Unit, onShare: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onShare() },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -106,7 +116,16 @@ fun CardItem(card: DigitalCard) {
                     .fillMaxWidth()
                     .height(80.dp)
                     .background(Color(android.graphics.Color.parseColor(card.color)))
-            )
+            ) {
+                Row(modifier = Modifier.align(Alignment.TopEnd).padding(8.dp)) {
+                    IconButton(onClick = onEdit) {
+                        Icon(Icons.Default.Edit, contentDescription = "Edit", tint = Color.White)
+                    }
+                    IconButton(onClick = onShare) {
+                        Icon(Icons.Default.QrCode, contentDescription = "Share", tint = Color.White)
+                    }
+                }
+            }
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {

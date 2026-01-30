@@ -59,4 +59,13 @@ class MainViewModel : ViewModel() {
         HawkRepository.deleteContact(contactId)
         loadUserData()
     }
+
+    fun saveCard(card: DigitalCard) {
+        HawkRepository.saveCard(card)
+        loadUserData()
+    }
+
+    fun getCardById(cardId: String): DigitalCard? {
+        return _cards.value.find { it.id == cardId }
+    }
 }
