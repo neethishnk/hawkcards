@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import OnboardingWizard from './OnboardingWizard';
 import DigitalCardEditor from './DigitalCardEditor';
+import ShareModal from './ShareModal';
 
 interface UserPortalProps {
   user: User;
@@ -826,6 +827,13 @@ const UserPortal: React.FC<UserPortalProps> = ({ user, onLogout }) => {
             userId={user.id}
             onClose={() => setIsEditorOpen(false)}
             onSave={handleEditorSave}
+         />
+       )}
+
+       {isShareModalOpen && cardToShare && (
+         <ShareModal
+            card={cardToShare}
+            onClose={() => setIsShareModalOpen(false)}
          />
        )}
 

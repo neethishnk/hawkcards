@@ -253,5 +253,22 @@ export const StorageService = {
     const stored = localStorage.getItem('hawk_templates');
     const templates: MessageTemplate[] = stored ? JSON.parse(stored) : INITIAL_TEMPLATES;
     localStorage.setItem('hawk_templates', JSON.stringify(templates.filter(t => t.id !== tmId)));
+  },
+
+  getAllCards: (): DigitalCard[] => {
+    const stored = localStorage.getItem('hawk_cards');
+    return stored ? JSON.parse(stored) : INITIAL_CARDS;
+  },
+
+  incrementCardViews: (cardId: string) => {
+    const cards = StorageService.getAllCards();
+    const updated = cards.map(c => c.id === cardId ? { ...c, views: c.views + 1, uniqueViews: c.uniqueViews + 1 } : c);
+    localStorage.setItem('hawk_cards', JSON.stringify(updated));
+  },
+
+  incrementCardSaves: (cardId: string) => {
+    const cards = StorageService.getAllCards();
+    const updated = cards.map(c => c.id === cardId ? { ...c, saves: c.saves + 1 } : c);
+    localStorage.setItem('hawk_cards', JSON.stringify(updated));
   }
 };

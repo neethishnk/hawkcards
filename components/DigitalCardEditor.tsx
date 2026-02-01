@@ -31,6 +31,8 @@ const SOCIAL_TYPES = [
   { id: 'instagram', icon: Instagram, label: 'Instagram' },
   { id: 'github', icon: Github, label: 'GitHub' },
   { id: 'youtube', icon: Youtube, label: 'YouTube' },
+  { id: 'facebook', icon: Facebook, label: 'Facebook' },
+  { id: 'whatsapp', icon: Mail, label: 'WhatsApp' }, // Using Mail as placeholder for WhatsApp if not found
 ];
 
 const DigitalCardEditor: React.FC<DigitalCardEditorProps> = ({ card, userId, onClose, onSave }) => {
@@ -282,6 +284,26 @@ const DigitalCardEditor: React.FC<DigitalCardEditorProps> = ({ card, userId, onC
                            Personal Information
                         </h3>
                         <div className="grid grid-cols-2 gap-6">
+                           <div className="col-span-1">
+                              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Prefix</label>
+                              <input
+                                 type="text"
+                                 value={formData.prefix || ''}
+                                 placeholder="Mr. / Ms. / Dr."
+                                 onChange={e => setFormData({...formData, prefix: e.target.value})}
+                                 className="w-full mt-2 p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                              />
+                           </div>
+                           <div className="col-span-1">
+                              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Pronouns</label>
+                              <input
+                                 type="text"
+                                 value={formData.pronouns || ''}
+                                 placeholder="he/him, she/her"
+                                 onChange={e => setFormData({...formData, pronouns: e.target.value})}
+                                 className="w-full mt-2 p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                              />
+                           </div>
                            <div className="col-span-1">
                               <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">First Name</label>
                               <input 

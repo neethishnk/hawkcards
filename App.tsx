@@ -4,11 +4,23 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import AdminDashboard from './components/AdminDashboard';
 import UserPortal from './components/UserPortal';
+import PublicCard from './components/PublicCard';
 import { StorageService } from './services/storage';
 
 const App: React.FC = () => {
   const [viewState, setViewState] = useState<ViewState>(ViewState.LOGIN);
+  const [publicCardId, setPublicCardId] = useState<string | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  React.useEffect(() => {
+    const path = window.location.pathname;
+    if (path.startsWith('/c/')) {
+      const cardId = path.split('/c/')[1];
+      if (cardId) {
+        setPublicCardId(cardId);
+      }
+    }
+  }, []);
 
   const handleLogin = (role: UserRole, email: string) => {
     // Determine view based on role
@@ -36,6 +48,10 @@ const App: React.FC = () => {
 
   const navigateToSignup = () => setViewState(ViewState.SIGNUP);
   const navigateToLogin = () => setViewState(ViewState.LOGIN);
+
+  if (publicCardId) {
+    return <PublicCard cardId={publicCardId} />;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
